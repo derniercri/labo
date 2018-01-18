@@ -1,0 +1,38 @@
+---
+- name: change root password 
+  user: name=root update_password=always password="{{ root_password }}"
+
+- name: install python 2
+  raw: test -e /usr/bin/python || (apt-get update -y && apt-get install -y python-minimal)
+
+- name: ensure minimal packages are installed
+  apt: name={{item}} state=installed update_cache=yes
+  with_items:
+    - apt-transport-https
+    - python-pip
+    - ufw
+
+- name: ensure repository key is installed
+  apt_key:
+    id: "58118E89F3A912897C070ADBF76221572C52609D"
+    keyserver: "hkp://p80.pool.sks-keyservers.net:80"
+    state: present
+
+- name: ensure docker registry is available
+  apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-xenial main' state=present
+
+- name: ensure docker and dependencies are installed
+  apt: name=docker-engine update_cache=yes
+
+- name: ensure docker is started
+  service: name=docker state=started
+
+- name: install python libraries
+  shell: pip install docker-py
+
+- name: install docker-compose
+  shell: test -e docker-compose || curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+
+- name: set rights on docker compose
+  shell: chmod +x /usr/local/bin/docker-compose
+

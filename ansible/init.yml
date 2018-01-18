@@ -1,0 +1,8 @@
+---
+- hosts: rancher-nodes
+  remote_user: root
+  roles:
+    - init
+  vars:
+    root_password: "9hH5epT9BwUzXVB5"
+    
