@@ -5,4 +5,5 @@
     - init
   vars:
     root_password: "9hH5epT9BwUzXVB5"
+    rancher_add_command: docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v2.0-alpha4 http://51.15.134.74:8080/v3/scripts/30D29D5CFC765D5BC16D:1514678400000:SW0zXHDi7DRY5aDaBfklD7roDQk
     

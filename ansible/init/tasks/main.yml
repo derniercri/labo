@@ -36,3 +36,5 @@
 - name: set rights on docker compose
   shell: chmod +x /usr/local/bin/docker-compose
 
+- name: join rancher
+  shell: "{{ rancher_add_command }}"
